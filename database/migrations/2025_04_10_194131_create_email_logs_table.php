@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('email_logs', function (Blueprint $table) {
             $table->id();
-            $table->int('compaign_id');
+            $table->integer('compaign_id');
             $table->string('subject');
             $table->text('recipients'); // store as JSON (array of emails)
             $table->enum('status', ['sent', 'opened', 'bounced'])->default('sent');

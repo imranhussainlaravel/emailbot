@@ -12,7 +12,7 @@ class EmailController extends Controller
 {
     public function showLoginForm()
     {
-        return view('customer-login');
+        return view('loginpage');
     }
 
     public function login(Request $request)
@@ -22,7 +22,7 @@ class EmailController extends Controller
         $User = User::where('email', $credentials['email'])->first();
 
         if ($User && Hash::check($credentials['password'], $User->password)) {
-            session(['customer' => $User]);
+            // session(['customer' => $User]);
             return "Login Successful! Welcome, " . $User->email;
         } else {
             return redirect()->back()->with('error', 'Invalid credentials');
