@@ -23,10 +23,17 @@ class EmailController extends Controller
 
         if ($User && Hash::check($credentials['password'], $User->password)) {
             // session(['customer' => $User]);
-            return "Login Successful! Welcome, " . $User->email;
+            // return view('welcome');
+
+            return "Login Successful! Welcome, " . $User->name;
         } else {
+            // return view('welcome');
+
             return redirect()->back()->with('error', 'Invalid credentials');
         }
+    }
+    public function index(){
+        return view("dashboard");
     }
 }
 
