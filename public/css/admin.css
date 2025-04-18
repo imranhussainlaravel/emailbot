@@ -1,0 +1,312 @@
+:root {
+    --bg-color-light: #f0f0f0;
+    --bg-color-dark: #121212;
+    --text-color-light: #333;
+    --text-color-dark: #e0e0e0;
+    --sidebar-bg-color-dark: #1e1e1e;
+    --header-bg-color-dark: #2e2e2e;
+    --button-bg-color-dark: #3b3b3b;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg-color-dark);
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-header {
+    font-size: 24px;
+    color: var(--text-color-dark);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 20px;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    font-size: 18px;
+    color: var(--text-color-dark);
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-menu a i {
+    margin-right: 10px;
+}
+
+/* Main content styles */
+.main-content {
+    flex: 1;
+    background-color: var(--bg-color-light);
+    transition: background-color 0.3s ease;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.theme-toggle-btn {
+    background-color: var(--button-bg-color-dark);
+    color: var(--text-color-dark);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dark theme styles */
+body.dark-mode {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+}
+
+body.dark-mode .main-content {
+    background-color: var(--bg-color-dark);
+}
+
+body.dark-mode .sidebar {
+    background-color: var(--header-bg-color-dark);
+}
+
+body.dark-mode .theme-toggle-btn {
+    background-color: var(--button-bg-color-dark);
+}
+/* Dashboard Stats Card Styles */
+#dashboard-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.card {
+    background-color: #1e1e1e !important; /* Dark card background */
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: 29%;
+}
+
+.card h3 {
+    margin: 0;
+    color: #e0e0e0; /* Light text */
+    font-size: 18px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #999;
+}
+
+/* Color-coded numbers */
+#stat-total-orders {
+    font-size: 36px;
+    color: #4CAF50; /* Green */
+}
+
+#stat-products-sold {
+    font-size: 36px;
+    color: #FFC107; /* Yellow */
+}
+
+#stat-followers {
+    font-size: 36px;
+    color: #FF5722; /* Red */
+}
+
+/* Table Styles */
+#table-container {
+    margin: 20px;
+    background-color: #2a2a2a; /* Dark table background */
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.table-header h3 {
+    margin: 0;
+    color: #e0e0e0; /* Light text */
+}
+
+#filter-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.filter-btn {
+    background-color: #3b3b3b; /* Button background */
+    color: #e0e0e0;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #5a5a5a; /* Button hover color */
+}
+
+/* User Table */
+#users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#users-table thead {
+    background-color: #1e1e1e; /* Dark table header */
+}
+
+#users-table th, #users-table td {
+    padding: 10px 15px;
+    text-align: left;
+    color: #e0e0e0; /* Light text */
+}
+
+#users-table tbody tr:nth-child(even) {
+    background-color: #1c1c1c; /* Alternating row color */
+}
+
+/* Status and Details Button */
+.status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: white;
+}
+
+.status.inactive {
+    background-color: #FFC107; /* Yellow */
+}
+.status.active {
+    background-color: #4CAF50; /* Green */
+}
+
+.btn-details {
+    background-color: #3b3b3b; /* Button background */
+    color: #e0e0e0; /* Button text */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-details:hover {
+    background-color: #5a5a5a; /* Button hover color */
+}
+
+.main-content {
+    background-color: #5a5a5a; /* Button hover color */
+
+}
+.editor-container {
+    height: 90vh;
+}
+
+
+.form-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    border-radius: 5px;
+}
+
+.form-group textarea {
+    height: 100px;
+}
+
+.form-group input[type="file"] {
+    border: none;
+    background-color: #1e1e1e;
+}
+
+.img-preview {
+    display: block;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+/* Image ratio styles */
+#main_img_preview {
+    width: 300px;
+    height: 300px; /* 1:1 aspect ratio */
+    object-fit: cover;
+}
+
+#header_img_preview {
+width: 300px;  /* Example width */
+height: 450px; /* 2:3 aspect ratio */
+object-fit: cover;
+}
+
+.form-group button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.form-group button:hover {
+    background-color: #45a049;
+}

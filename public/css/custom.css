@@ -1,0 +1,405 @@
+/* Hide the default outline */
+.dropdown-item:focus, .dropdown-item:hover {
+    outline: none;
+}
+
+/* Set up the initial state of the dropdown item */
+.dropdown-item {
+    position: relative; /* Position relative for the pseudo-element */
+    overflow: hidden; /* Hide overflow to ensure gradient is contained */
+    color: #000; /* Text color */
+    font-weight: bold;
+    padding: 5px 20px; /* Padding for the item */
+    /* transition: color 0.3s ease; */
+    font-size: 12px;
+    margin: 3px 0;
+    color: #000;
+    line-height: 1.8; /* Allows more space between lines for long titles */
+    word-wrap: break-word;  /* Ensures long titles break into multiple lines */
+    white-space: normal; 
+}
+
+/* Create a gradient effect on hover */
+.dropdown-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(90deg, transparent, #f9b28c, transparent);  */
+    /* transition: left 0.3s ease; */
+    z-index: 0; /* Ensure gradient is below text */
+}
+
+/* Ensure text is above gradient */
+.dropdown-item {
+    position: relative;
+    z-index: 1;
+}
+
+/* Show the gradient from left to right on hover */
+.dropdown-item:hover::before {
+    left: 100%; /* Move gradient from left to right */
+}
+
+/* Optional: Change text color on hover */
+.dropdown-item:hover {
+    /* color: #f9b28c;  */
+    background-color: #ddddde; 
+    font-weight: bold;
+}
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block; /* Make the dropdown menu visible */
+    opacity: 1; /* Ensure the dropdown menu is fully opaque */
+    visibility: visible; /* Make the dropdown menu visible */
+}
+
+
+.card {
+    height: 300px; /* Set a fixed height for all cards */
+    border-radius: 12px; /* Rounded corners */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distributes space evenly */
+    transition: transform 0.3s ease; /* Smooth transition effect */
+}
+.card1 {
+    height: 350px; /* Set a fixed height for all cards */
+    border-radius: 12px; /* Rounded corners */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distributes space evenly */
+    transition: transform 0.3s ease; /* Smooth transition effect */
+}
+.container-fluid {
+    /* background: linear-gradient(90deg, #083358, #0b446b); */
+    /* background: linear-gradient(90deg, #f9a171, #FFFFFF); */
+    /* background-color: #f9a171; */
+    /* background: linear-gradient(90deg, #f9a171, #fcd2b4); */
+    /* background: linear-gradient(90deg, #f9a171 0%, rgba(249, 161, 113, 0.5) 100%); */
+    background: linear-gradient(90deg, #e58b4d, #ffc1a0);
+
+}
+.navbar {
+    /* background: linear-gradient(90deg, #083358, #0b446b); */
+    /* background: linear-gradient(90deg, #f9a171, #FFFFFF); */
+    /* background-color: #f9a171; */
+    /* background: linear-gradient(90deg, #f9a171, #fcd2b4); */
+    /* background: linear-gradient(90deg, #f9a171 0%, rgba(249, 161, 113, 0.5) 100%); */
+    /* background: linear-gradient(90deg, #e58b4d, #fcd2b4); */
+    background: linear-gradient(90deg, #e58b4d, #ffc1a0);
+
+
+}
+.card:hover {
+    transform: translateY(-10px); /* Move the card up by 10px on hover */
+}
+
+.card img {
+    border-radius: 8px; /* Rounded corners for image */
+    object-fit: cover;
+    max-height: 150px; /* Maximum height for images */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between title and link */
+    flex-grow: 1;
+    padding: 20px;
+    align-items: center;
+}
+
+.text-primary {
+    color: #f76c6c !important; /* Color for "Learn More" link */
+}
+
+.card-body h5 {
+    font-size: 1rem; /* Consistent font size */
+    color: #001c40; /* Dark color for title */
+    text-align: center;
+}
+
+.text-decoration-none:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+
+.custom-packaging {
+
+    background: linear-gradient(90deg, #e58b4d, #ffc1a0);
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+.image-container {
+    position: bottom;
+    background: url('YOUR_IMAGE_PATH_HERE') no-repeat left center; /* Add your image path */
+    /* background-size: contain; */
+    width: 70%;
+    height: 70%;
+    /* mask-image: linear-gradient(to right, black 70%, transparent 100%);  Gradient mask to fade image */
+    /* -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%); */
+}
+.text-container {
+    position: relative; /* Make text appear above the background image */
+    z-index: 1;
+    color: white;
+}
+.custom-packaging h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+.btn-custom {
+    background-color: #175a5a; /* Custom button color */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+#rowofp {
+    background: linear-gradient(to right, #f9b28c 70%, rgba(248, 143, 32, 0) 100%); /* Adjust transparency as needed */
+    border-radius: 40px 0px 0px 40px;
+}
+
+.no-mask {
+    mask-image: none;
+    -webkit-mask-image: none;
+    background: transparent; /* Ensure it does not take any masked background */
+    z-index: 1; /* Bring it on top if needed */
+    position: relative; /* Adjust positioning to ensure it appears correctly */
+}
+
+/* Styling for specific elements using IDs */
+#image-column {
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+#gift-box-image {
+    max-width: 100%;
+    height: auto;
+}
+
+#form-column {
+    padding: 20px;
+    background-color: #fff;
+}
+
+#form-title {
+    color: #f9b28c;
+    margin-bottom: 20px;
+}
+
+#submit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+#submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Custom Form CSS */
+#custom-quote-form {
+    background-color: #fde3d5; /* Light yellow background */
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 130px;
+    margin-bottom: 50px;
+
+}
+
+#custom-quote-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-select {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea.form-control {
+    width: 100%;
+    margin-top: 10px;
+    resize: none;
+    font-size: 14px;
+}
+
+
+.submit-btn {
+    background-color: #fdad82; /* Yellow button */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+}
+
+.submit-btn:hover {
+    background-color: #ff7328; /* Darker yellow on hover */
+}
+
+
+
+#icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    background-color: #fde3d5;
+    margin-bottom: 15px;
+}
+
+#benefit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+#benefit-icon {
+    font-size: 32px;
+    color: #7b7b6f;
+}
+
+#benefit h5 {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#benefit p {
+    margin-bottom: 0;
+    color: #6c757d;
+}
+
+#heading-title {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+#phone-icon, #email-icon {
+    background-color: #175a5a; /* Yellow background for the icon */
+    color: #fff; /* Fill color for the icon */
+    border-radius: 30%; /* Circular icon background */
+    padding: 8px; /* Padding inside the circular icon */
+    font-size: 14px; /* Icon size */
+}
+
+#phone-link, #email-link {
+    text-decoration: none; /* Remove underline from the links */
+    font-size: 17px; /* Font size for the text */
+    color: #000; /* Text color */
+    /* margin-left: 10px; */
+    /* padding-left: 10px; */
+}
+
+
+
+#divider {
+    font-size: 22px; /* Font size for the divider */
+    padding: 0 20px; /* Spacing around the divider */
+}
+ul.list-unstyled li {
+    margin-bottom: 10px; /* Adjust the value to control the space */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+    }
+    .form-control {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main container for the blog content */
+.blog-container {
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 80px; /* Minimal spacing on the sides */
+}
+
+.blog-content {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+
+
+
+
+
+
+

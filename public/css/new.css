@@ -1,0 +1,172 @@
+/* Root color variables */
+:root {
+    --header-bg: #ffffff;
+    --text-color: #000000;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --button-color:#ff4d4d;
+    --theme-color:#ff4d4d;
+  }
+  
+  [data-theme="dark"] {
+    --header-bg: #333333;
+    --text-color: #ffffff;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  body {
+    background-color: var(--header-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .header {
+    background-color: var(--header-bg);
+    /* box-shadow: 0 4px 6px var(--shadow-color); */
+  }
+  
+  .top-bar {
+    background-color: #f8f9fa;
+    font-size: 0.9rem;
+  }
+  
+  .logo-bar {
+    background-color: var(--header-bg);
+  }
+  
+  .navbar {
+    box-shadow: 0 4px 6px var(--shadow-color),0 -4px 6px var(--shadow-color);
+  }
+  
+  .nav-link {
+    color: var(--text-color) !important;
+  }
+  
+  .nav-link.active {
+    color: var(--button-color) !important;
+  }
+  
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='%23ffffff' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  /* Call Section Styles */
+.call-section {
+    font-size: 0.9rem;
+    color: var(--text-color);
+  }
+  
+  .call-text {
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #6c757d; /* Muted text color */
+  }
+  
+  .call-number {
+    font-weight: bold;
+    font-size: 1rem;
+    color: var(--button-color); /* Highlighted call number color */
+  }
+  
+  .call-number:hover {
+    text-decoration: underline;
+    color: var(--button-color); /* Slightly darker red on hover */
+  }
+  #divider {
+    font-size: 22px; /* Font size for the divider */
+    padding: 0 20px; /* Spacing around the divider */
+}
+#phone-icon, #email-icon {
+  background-color: var(--button-color); /* Yellow background for the icon */
+  color: #fff; /* Fill color for the icon */
+  border-radius: 30%; /* Circular icon background */
+  padding: 8px; /* Padding inside the circular icon */
+  font-size: 12px; /* Icon size */
+}
+#phone-link, #email-link {
+  text-decoration: none; /* Remove underline from the links */
+  font-size: 15px; /* Font size for the text */
+  color: #000; /* Text color */
+  /* margin-left: 10px; */
+  /* padding
+  
+  -left: 10px; */
+}
+
+/* Dark Mode Support */
+.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+.dark-mode .fw-bold {
+  color:  var(--theme-color) !important;
+}
+.dark-mode .text-muted {
+  color: var(--text-color) !important;
+}
+
+/* Button Hover Effects */
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-outline-dark:hover {
+  background-color: #333;
+  color: white;
+}
+
+
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    /* Phone & Email stay on top */
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .top-contact {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 10px;
+    }
+
+    /* Hide divider on small screens */
+    #divider {
+        display: none;
+    }
+
+    /* Navbar changes */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    /* Move logo into navbar on the left */
+    .navbar-brand {
+        order: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Menu button on right */
+    .navbar-toggler {
+        order: 2;
+    }
+
+    /* Center the nav links in the dropdown */
+    .navbar-nav {
+        text-align: center;
+    }
+}
+
+  
+  

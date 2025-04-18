@@ -1,0 +1,132 @@
+:root {
+    --primary-color: #3498db; /* Primary color */
+    --secondary-color: #2c3e50; /* Secondary color */
+    --white: #ffffff; /* White color */
+    --black: #000000; /* Black color */
+    --font-family: 'Arial', sans-serif;
+}
+
+/* Base Styles */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: var(--secondary-color);
+    padding: 1rem 2rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    color: var(--white);
+    font-size: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.nav-contact {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-contact a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.quote-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--white);
+    margin: 4px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .nav-contact {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--secondary-color);
+        padding: 1rem 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-contact {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 1rem;
+    }
+
+    .logo a {
+        font-size: 1.2rem;
+    }
+
+    .quote-btn {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
