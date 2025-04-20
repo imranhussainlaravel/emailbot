@@ -343,12 +343,27 @@
 
         <!-- Main Content -->
         <main class="main-content">
+           
             <div class="email-compose-container">
                 <div class="nav-buttons">
                     <a href="{{ route('admin.change') }}" class="btn btn-primary">
                         <i class="fas fa-arrow-left"></i> Back to Emails
                     </a>
                 </div>
+                @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                        <a href="{{ route('emails.recipients') }}" class="btn btn-success float-right">
+                            Proceed to Recipients <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                @endif
 
                 <h2>Compose New Email</h2>
                 
@@ -367,6 +382,11 @@
                                 
                                 @error('google_sheet_url')
                                     <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                @error('google_sheet_url')
+                                    <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -398,20 +418,7 @@
                 </div>
 
                 <!-- Error/Success Alerts -->
-                @if(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                        <a href="{{ route('emails.recipients') }}" class="btn btn-success float-right">
-                            Proceed to Recipients <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                @endif
+                
             </div>
         </main>
     </div>
