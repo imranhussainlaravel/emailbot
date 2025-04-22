@@ -12,6 +12,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\EmailConfiguration;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class EmailController extends Controller
 {
@@ -86,33 +91,28 @@ class EmailController extends Controller
             $emails = $this->fetchGoogleSheetData($sheetId);
 
             // Initialize an empty array for errors
-            $errors = [];
 
             // Validate emails
-            foreach ($emails as $index => $email) {
-                // Ensure $email is a string (if it's not, you might want to skip or handle it differently)
-                if (is_string($email)) {
-                    // Split emails if they're in a comma-separated format
-                    $emailArray = explode(',', $email);
-
-                    // Check if any email is not in correct format or is a duplicate
-                    foreach ($emailArray as $key => $singleEmail) {
-                        $trimmedEmail = trim($singleEmail);
-
-                        // Check if email format is valid
-                        if (!filter_var($trimmedEmail, FILTER_VALIDATE_EMAIL)) {
-                            $errors[] = "Invalid email format at line " . ($index + 1);
-                        }
-
-                        // Check for duplicates
-                        if (in_array($trimmedEmail, array_slice($emailArray, 0, $key))) {
-                            $errors[] = "Duplicate email found at line " . ($index + 1);
-                        }
-                    }
-                } else {
-                    // Handle the case where $email is not a string (you might want to log or skip this)
-                    $errors[] = "Invalid email format at line " . ($index + 1) . " (not a string).";
+            $errors = [];
+            $allEmails = []; // Track all valid emails for duplicate checking
+    
+            foreach ($emails as $index => $emailLine) {
+                // Check if line contains a comma
+                if (!filter_var($emailLine['email'], FILTER_VALIDATE_EMAIL)) {
+                    $errors[] = sprintf("B %d", $index + 2);
+                    continue;
                 }
+                if (strpos($emailLine['email'], ',') !== false) {
+                    $errors[] = sprintf("B %d", $index + 2);
+                    continue;
+                }
+            }
+
+            if (!empty($errors)) {
+                return redirect()->back()
+                    ->withErrors($errors)
+                    ->withInput()
+                    ->with('error_details', $errors); // Additional error details
             }
 
             // Return errors and the emails to the view
@@ -181,34 +181,154 @@ class EmailController extends Controller
     //     }
     // }
     public function showEmails()
-{
-    $emails = session('emails', []);
-    $errors = [];
-
-    // Validate emails
-    foreach ($emails as $index => $email) {
-        // Split emails if they're in a comma-separated format
-        $emailArray = explode(',', $email);
-
-        // Check if any email is not in correct format or is a duplicate
-        foreach ($emailArray as $key => $singleEmail) {
-            $trimmedEmail = trim($singleEmail);
-
-            // Check if email format is valid
+    {
+        $emails = session('emails', []);
+        $errors = [];
+        $allEmails = []; // Track all valid emails for duplicate checking
+    
+        foreach ($emails as $index => $emailLine) {
+            // Check if line contains a comma
+            if (strpos($emailLine, ',') !== false) {
+                $errors[] = "Invalid email format: Comma found at line " . ($index + 1);
+                continue;
+            }
+    
+            $trimmedEmail = trim($emailLine);
+    
+            // Validate email format
             if (!filter_var($trimmedEmail, FILTER_VALIDATE_EMAIL)) {
                 $errors[] = "Invalid email format at line " . ($index + 1);
-            }
-
-            // Check for duplicates
-            if (in_array($trimmedEmail, array_slice($emailArray, 0, $key))) {
-                $errors[] = "Duplicate email found at line " . ($index + 1);
+            } else {
+                // Check for duplicates across all emails
+                if (in_array($trimmedEmail, $allEmails)) {
+                    $errors[] = "Duplicate email found at line " . ($index + 1);
+                } else {
+                    $allEmails[] = $trimmedEmail;
+                }
             }
         }
+    
+        return view('emailsrecipients', compact('emails', 'errors'));
     }
 
-    // Return errors and the emails to view
-    return view('emailsrecipients', compact('emails', 'errors'));
-}
+    // app/Http/Controllers/EmailController.php
+    public function sendBatch(Request $request)
+    {
+        // 1. Get emails from request
+        $emails = array_map(function($e) {
+            return json_decode($e, true);
+        }, $request->input('emails', []));
+    
+        // 2. Simple validation
+        if (empty($emails)) {
+            return back()->with('error', 'No emails to send!');
+        }
+
+        $smtpConfigs = DB::table('email_configurations')
+        ->where('status', true)
+        ->orderBy('created_at')
+        ->get();
+
+        if ($smtpConfigs->isEmpty()) {
+            return back()->with('error', 'No active email configurations found');
+        }
+        // $totalEmails = 100;
+        // $emails = $this->getEmailList($totalEmails); // Implement your email source
+    
+        // 3. Send in batches of 10 with SMTP rotation
+        $sentCount = 0;
+        $currentConfigIndex = 0;
+
+        $totalEmails = count($emails);
+
+    
+        foreach (array_chunk($emails, 10) as $batch) {
+            // Rotate SMTP config every batch
+            $config = $smtpConfigs[$currentConfigIndex % count($smtpConfigs)];
+
+            
+            // Update live configuration
+            $this->setMailConfig($config);
+            
+            // Send batch
+            try {
+                foreach ($batch as $emailData) {
+                    Mail::send('emails.template', [
+                        'name' => $emailData['name'],
+                        // 'content' => "Dear {$emailData['name']},...", // Your custom content
+                        // 'unsubscribeLink' => route('unsubscribe', $unsubscribeToken),
+                        'senderName' => $senderName,
+                        'senderRole' => 'Customer Relations Manager',
+                        'companyWebsite' => 'https://nexonpackaging.com',
+                        'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
+                    ], function ($message) use ($emailData, $config) {
+                        $message->to($emailData['email'])
+                                ->subject('Best Pricing & Premium Packaging Guaranteed')
+                                ->from($config->mail_from_address);
+                    });
+                    
+                    $sentCount++;
+                    // usleep(500000); // 0.5 second delay between emails
+                    usleep(5000000); // 5-second delay between emails
+
+                }
+                
+                // Update SMTP usage count
+                DB::table('email_configurations')
+                    ->where('id', $config->id)
+                    ->increment('sent_count', count($batch));
+    
+            } catch (\Exception $e) {
+                // Log error and rotate config
+                return redirect()->route('emails.compose')
+                ->withInput()
+                ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails"); // Additional error details
+                Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
+            }
+            
+            $currentConfigIndex++;
+            sleep(10); // 10 second delay between batches
+        }
+    
+        if (!empty($errors)) {
+            return redirect()->route('emails.compose')
+                ->withInput()
+                ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails"); // Additional error details
+        }
+        
+        // 3. Send emails directly
+        // try {
+        //     foreach ($emails as $email) {
+        //         Mail::send('emails.template', [
+        //             'content' => $email['content']
+        //         ], function ($message) use ($email) {
+        //             $message->to($email['email'])
+        //                     ->subject('Your Subject');
+        //         });
+                
+        //         // Add delay between sends (2 seconds)
+        //         usleep(2000000);
+        //     }
+            
+        //     return back()->with('success', count($emails) . ' emails sent successfully!');
+    
+        // } catch (\Exception $e) {
+        //     return back()->with('error', 'Error: ' . $e->getMessage());
+        // }
+    }
+
+    private function setMailConfig($config)
+    {
+        Config::set('mail.mailers.smtp', [
+            'transport' => 'smtp',
+            'host' => $config->mail_host,
+            'port' => $config->mail_port,
+            'encryption' => $config->mail_scheme,
+            'username' => $config->mail_username,
+            'password' => $config->mail_password,
+            'timeout' => 30,
+        ]);
+    }
 
 
 }

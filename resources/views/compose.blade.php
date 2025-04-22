@@ -350,6 +350,16 @@
                         <i class="fas fa-arrow-left"></i> Back to Emails
                     </a>
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 @if(session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
@@ -404,7 +414,7 @@
                         <hr>
 
                         <!-- Alternative CSV Import -->
-                        <h5>Or upload CSV</h5>
+                        {{-- <h5>Or upload CSV</h5>
                         <form method="POST" action="#" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -413,7 +423,7 @@
                             <button type="submit" class="btn btn-secondary">
                                 <i class="fas fa-file-csv"></i> Upload CSV
                             </button>
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
 
