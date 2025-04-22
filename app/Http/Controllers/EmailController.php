@@ -257,7 +257,7 @@ class EmailController extends Controller
                         'name' => $emailData['name'],
                         // 'content' => "Dear {$emailData['name']},...", // Your custom content
                         // 'unsubscribeLink' => route('unsubscribe', $unsubscribeToken),
-                        'senderName' => $senderName,
+                        'senderName' => $config->name,
                         'senderRole' => 'Customer Relations Manager',
                         'companyWebsite' => 'https://nexonpackaging.com',
                         'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
