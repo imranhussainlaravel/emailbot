@@ -15,7 +15,11 @@
             Best Regards,<br>
             <strong>{{ $senderName }}</strong><br>
             {{ $senderRole }}<br>
-            <img src="https://images.nexonpackaging.com/fulllogo.webp" alt="Nexon Packaging Logo" style="max-width: 300px; height: auto; margin: 15px 0;"><br>
+            <!-- Transparent logo with no forced background -->
+            <img src="https://images.nexonpackaging.com/fulllogo.webp"
+            alt="Nexon Packaging Logo"
+            style="max-width: 300px; height: auto; margin: 15px 0; display: block;">
+            <br>
             🔗 <a href="{{ $companyWebsite }}">{{ $companyWebsite }}</a><br>
             📞 (904) 706-8883
             <br><a href="{{ $tracked_link }}">Click here for details</a>
