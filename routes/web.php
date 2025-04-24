@@ -28,7 +28,7 @@ Route::get('/track/click/{id}', function($id, Request $request) {
         'opened_at' => now()
     ]);
     
-    return redirect(urldecode($request->url));
+    return redirect('https://www.nexonpackaging.com/contact');
 })->name('track.click');
 Route::group(['middleware' => 'admin.guest'], function() {
     Route::get('/', [EmailController::class, 'form'])->name('admin.login');
