@@ -269,17 +269,15 @@ class EmailController extends Controller
                         'name' => $emailData['name'],
                         'tracking_pixel' => $trackingPixel,
                         'tracked_link' => $trackedLink,
-                        // 'content' => "Dear {$emailData['name']},...", // Your custom content
-                        // 'unsubscribeLink' => route('unsubscribe', $unsubscribeToken),
                         'senderName' => $config->name,
                         'senderRole' => 'Customer Relations Manager',
                         'companyWebsite' => 'https://nexonpackaging.com',
                         'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
-                    ], function ($message) use ($emailData, $config) {
-                        $message->to($emailData['email']) 
-                                ->subject('Best Pricing & Premium Packaging Guaranteed')
-                                ->from($config->mail_from_address);
+                    ], function ($message) use ($emailData) {
+                        $message->to($emailData['email'])
+                                ->subject('Best Pricing & Premium Packaging Guaranteed');
                     });
+                    
                     Log::info("Email sent to: {$emailData['email']} with subject: 'Best Pricing & Premium Packaging Guaranteed'");
                     
                     EmailLog::create([
@@ -412,6 +410,8 @@ class EmailController extends Controller
 
     private function setMailConfig($config)
     {
+        Config::set('mail.default', 'smtp');
+
         Config::set('mail.mailers.smtp', [
             'transport' => 'smtp',
             'host' => $config->mail_host,
@@ -419,7 +419,12 @@ class EmailController extends Controller
             'encryption' => $config->mail_scheme,
             'username' => $config->mail_username,
             'password' => $config->mail_password,
-            'timeout' => 30,
+            'timeout' => null,
+            'auth_mode' => null,
+        ]);
+        Config::set('mail.from', [
+            'address' => $config->mail_from_address,
+            'name' => $config->name,
         ]);
     }
 
