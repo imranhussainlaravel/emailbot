@@ -324,6 +324,7 @@ class EmailController extends Controller
     
         if (!empty($errors)) {
             return redirect()->route('emails.compose')
+                ->withInput()
                 ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails"); // Additional error details
         }
         else {
