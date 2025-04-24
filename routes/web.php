@@ -25,7 +25,7 @@ Route::get('/track/click/{id}', function($id, Request $request) {
     \Log::info("Link clicked: $id"); // Log to file
     DB::table('email_logs')->where('tracking_id', $id)->update([
         'status' => 'clicked',
-        'clicked_at' => now()
+        'opened_at' => now()
     ]);
     
     return redirect(urldecode($request->url));
