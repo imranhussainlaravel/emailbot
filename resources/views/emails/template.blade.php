@@ -16,7 +16,7 @@
             <strong>{{ $senderName }}</strong><br>
             {{ $senderRole }}<br>
             <!-- Transparent logo with no forced background -->
-            <img src="https://images.nexonpackaging.com/fulllogo.webp"
+            <img src="https://images.nexonpackaging.com/fulllogo.png"
             alt="Nexon Packaging Logo"
             style="max-width: 300px; height: auto; margin: 15px 0; display: block;">
             <br>
