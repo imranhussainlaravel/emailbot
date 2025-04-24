@@ -2,7 +2,8 @@
 <html>
 <body>
     <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif;">
-        <p>Dear {{Name}},</p>
+        <img src="{{ $tracking_pixel }}" width="1" height="1" style="display:none">
+        <p>Dear {{ $name }},</p>
         
         <p>I hope you're doing well. A few months ago, we received your request for a quote, but it seems the order didn't move forward. I wanted to check in and see if you have any new projects or requirements we can assist with.</p>
         
@@ -17,6 +18,7 @@
             <img src="https://images.nexonpackaging.com/fulllogo.webp" alt="Nexon Packaging Logo" style="max-width: 300px; height: auto; margin: 15px 0;"><br>
             🔗 <a href="{{ $companyWebsite }}">{{ $companyWebsite }}</a><br>
             📞 (904) 706-8883
+            <br><a href="{{ $tracked_link }}">Click here for details</a>
         </p>
 
         <div style="font-size: 0.8em; color: #666; margin-top: 30px;">

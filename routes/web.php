@@ -6,7 +6,29 @@ use App\Http\Controllers\EmailController;
 
 use App\Http\kernel;
 
+// Track email opens
+Route::get('/track/open/{id}', function($id) {
+    \Log::info("Email opened: $id"); // Log to file
+    DB::table('email_tracking')->where('tracking_id', $id)->update([
+        'status' => 'opened',
+        'opened_at' => now()
+    ]);
+    
+    // Return transparent pixel
+    return response(base64_decode('R0lGODlhAQABAJAAAP8AAAAAACH5BAUQAAAALAAAAAABAAEAAAICBAEAOw=='))
+        ->header('Content-Type', 'image/gif');
+})->name('track.open');
 
+// Track link clicks
+Route::get('/track/click/{id}', function($id, Request $request) {
+    \Log::info("Link clicked: $id"); // Log to file
+    DB::table('email_tracking')->where('tracking_id', $id)->update([
+        'status' => 'clicked',
+        'clicked_at' => now()
+    ]);
+    
+    return redirect(urldecode($request->url));
+})->name('track.click');
 Route::group(['middleware' => 'admin.guest'], function() {
     Route::get('/', [EmailController::class, 'form'])->name('admin.login');
     Route::post('authenticate', [EmailController::class, 'data'])->name('admin.authenticate');
