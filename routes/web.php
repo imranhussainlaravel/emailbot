@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmailController;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\kernel;
 
 // Track email opens
 Route::get('/track/open/{id}', function($id) {
     \Log::info("Email opened: $id"); // Log to file
-    DB::table('email_tracking')->where('tracking_id', $id)->update([
+    DB::table('email_logs')->where('tracking_id', $id)->update([
         'status' => 'opened',
         'opened_at' => now()
     ]);
@@ -22,7 +23,7 @@ Route::get('/track/open/{id}', function($id) {
 // Track link clicks
 Route::get('/track/click/{id}', function($id, Request $request) {
     \Log::info("Link clicked: $id"); // Log to file
-    DB::table('email_tracking')->where('tracking_id', $id)->update([
+    DB::table('email_logs')->where('tracking_id', $id)->update([
         'status' => 'clicked',
         'clicked_at' => now()
     ]);
