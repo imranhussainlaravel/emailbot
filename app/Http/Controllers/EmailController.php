@@ -51,7 +51,7 @@ class EmailController extends Controller
         $activeEmail = EmailConfiguration::where('status', 1)->first();
 
         // Get all other emails except the active one
-        $emails = EmailConfiguration::where('status', '!=', 1)->get();
+        $emails = EmailConfiguration::where('status', '!=', 0)->get();
 
         return view('changeemail', compact('activeEmail', 'emails'));
     }
