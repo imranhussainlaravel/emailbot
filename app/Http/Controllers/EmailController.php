@@ -391,29 +391,7 @@ class EmailController extends Controller
             // ->where('status', true)
             // ->orderBy('created_at')
             ->get();
-        // $smtpConfigs = [
-        //     (object)[
-        //         'mail_mailer' => 'smtp',
-        //         'mail_host' => 'smtp.hostinger.com',
-        //         'mail_username' => 'lisa@nexonpackaging.com',
-        //         'mail_password' => '5U!@7!3BVWKp',
-        //         'mail_from_address' => 'lisa@nexonpackaging.com',
-        //         'mail_port' => 587,
-        //         'mail_scheme' => 'tls',
-        //         'name' => 'lisa',
-        //     ],
-        //     (object)[
-        //         'mail_mailer' => 'smtp',
-        //         'mail_host' => 'smtp.hostinger.com',
-        //         'mail_username' => 'sharon@nexonpackaging.com',
-        //         'mail_password' => 'c;4Q7]CAA0=',
-        //         'mail_from_address' => 'sharon@nexonpackaging.com',
-        //         'mail_port' => 587,
-        //         'mail_scheme' => 'tls',
-        //         'name' => 'sharon',
-        //     ],
-            
-        // ];
+
         
 
         
