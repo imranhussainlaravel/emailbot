@@ -21,8 +21,6 @@ use App\Models\EmailCampaign;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Mailer\Transport;
 // use Symfony\Component\Mailer\Mailer;
-use Swift_SmtpTransport;
-use Swift_Mailer;
 
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
