@@ -400,7 +400,7 @@ class EmailController extends Controller
         if (empty($smtpConfigs)) {
             return back()->with('error', 'No active email configurations found');
         }
-        EmailCampaign::create([
+        $campaign = EmailCampaign::create([
             'title' => now()->format('l'),
             'subject' => 'Best Pricing & Premium Packaging Guaranteed',
             'content' => 'Your ',
@@ -412,7 +412,7 @@ class EmailController extends Controller
             'emails_bounced' => 0,
             'sent_at' => now(),
         ]);
-        $campaignId = $campaign->id;
+        $campaignId = $campaign->id; 
 
 
         $sentCount = 0;
