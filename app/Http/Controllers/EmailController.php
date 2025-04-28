@@ -488,7 +488,7 @@ class EmailController extends Controller
                     echo "<script>console.clear();</script>";
                     printf("Sent %d/%d emails\n", $currentProgress, $totalEmails);
 
-                    usleep(3000000); // 3 seconds delay between individual emails
+                    usleep(4000000); // 3 seconds delay between individual emails
                 }
             } catch (\Exception $e) {
                 Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
@@ -496,7 +496,7 @@ class EmailController extends Controller
             }
 
             $currentConfigIndex++;
-            sleep(6); // Delay between batches
+            sleep(7); // Delay between batches
         }
 
         Log::info("Successfully sent {$sentCount}/{$totalEmails} emails");
