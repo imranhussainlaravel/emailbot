@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\EmailLog;
+use App\Models\EmailCampaign;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Mailer\Transport;
 // use Symfony\Component\Mailer\Mailer;
@@ -399,6 +400,20 @@ class EmailController extends Controller
         if (empty($smtpConfigs)) {
             return back()->with('error', 'No active email configurations found');
         }
+        EmailCampaign::create([
+            'title' => now()->format('l'),
+            'subject' => 'Best Pricing & Premium Packaging Guaranteed',
+            'content' => 'Your ',
+            'sender_user_id' => auth()->id(), // Or any sender user id
+            'smtp_from_email' => 'sender@example.com',
+            'reply_to' => 'reply@example.com',
+            'emails_sent' => 0,
+            'emails_opened' => 0,
+            'emails_bounced' => 0,
+            'sent_at' => now(),
+        ]);
+        $campaignId = $campaign->id;
+
 
         $sentCount = 0;
         $currentConfigIndex = 0;
@@ -476,7 +491,7 @@ class EmailController extends Controller
 
                     EmailLog::create([
                         'recipients' => $emailData['email'],
-                        'compaign_id' => 0,
+                        'compaign_id' => $campaignId,
                         'status' => 'sent',
                         'subject' => 'Best Pricing & Premium Packaging Guaranteed',
                         'tracking_id' => $trackingId,
