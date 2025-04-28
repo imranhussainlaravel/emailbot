@@ -10,10 +10,13 @@ use App\Http\kernel;
 // Track email opens
 Route::get('/track/open/{id}', function($id) {
     \Log::info("Email opened: $id"); // Log to file
-    DB::table('email_logs')->where('tracking_id', $id)->update([
+    DB::table('email_logs')
+    ->where('tracking_id', $id)
+    ->update([
         'status' => 'opened',
-        'opened_at' => now()
+        'opened_times' => DB::raw('opened_times + 1')
     ]);
+
     
     // Return transparent pixel
     return response(base64_decode('R0lGODlhAQABAJAAAP8AAAAAACH5BAUQAAAALAAAAAABAAEAAAICBAEAOw=='))
@@ -24,7 +27,7 @@ Route::get('/track/open/{id}', function($id) {
 Route::get('/track/click/{id}', function($id, Request $request) {
     \Log::info("Link clicked: $id"); // Log to file
     DB::table('email_logs')->where('tracking_id', $id)->update([
-        'status' => 'clicked',
+        // 'status' => 'clicked',
         'opened_at' => now()
     ]);
     
