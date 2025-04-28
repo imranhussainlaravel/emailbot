@@ -12,10 +12,12 @@ Route::get('/track/open/{id}', function($id) {
     \Log::info("Email opened: $id"); // Log to file
     DB::table('email_logs')
     ->where('tracking_id', $id)
-    ->update([
-        'status' => 'opened',
-        'opened_times' => DB::raw('opened_times + 1')
-    ]);
+    ->update(['status' => 'opened']);
+
+    DB::table('email_logs')
+        ->where('tracking_id', $id)
+        ->increment('opened_times');
+
 
     
     // Return transparent pixel

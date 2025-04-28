@@ -443,7 +443,8 @@ class EmailController extends Controller
             try {
                 foreach ($batch as $emailData) {
                     $trackingId = uniqid();
-                    $trackingPixel = route('track.open', ['id' => $trackingId]);
+                    $trackingPixel = route('track.open', ['id' => $trackingId]) . '?t=' . time();
+                    // $trackingPixel = route('track.open', ['id' => $trackingId]);
                     $trackedLink = route('track.click', [
                         'id' => $trackingId,
                         'url' => urlencode('https://nexonpackaging.com')
