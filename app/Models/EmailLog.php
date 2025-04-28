@@ -16,5 +16,7 @@ class EmailLog extends Model
         'opened_at',
         'status',
         'bounce_reason',
+        'agent_name',
+        'opened_times',
     ];
 }
