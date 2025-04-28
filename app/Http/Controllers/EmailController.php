@@ -495,7 +495,7 @@ class EmailController extends Controller
                         'status' => 'sent',
                         'subject' => 'Best Pricing & Premium Packaging Guaranteed',
                         'tracking_id' => $trackingId,
-                        'agent_name' => $emailData['name'],
+                        'agent_name' => $config->name,
                     ]);
 
                     $sentCount++;
