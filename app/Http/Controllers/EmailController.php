@@ -518,7 +518,7 @@ class EmailController extends Controller
                     }
                     flush();
 
-                    usleep(4000000); // 3 seconds delay between individual emails
+                    usleep(5000000); // 3 seconds delay between individual emails
                 }
             } catch (\Exception $e) {
                 if (ob_get_level() > 0) {
@@ -530,7 +530,7 @@ class EmailController extends Controller
             }
 
             $currentConfigIndex++;
-            sleep(7); // Delay between batches
+            sleep(20); // Delay between batches
         }
 
         Log::info("Successfully sent {$sentCount}/{$totalEmails} emails");
