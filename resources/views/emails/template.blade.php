@@ -9,7 +9,7 @@
         
         <p>If you're considering a new order, please share the details—style, size, and quantity—and I'd be happy to arrange a quote for you. Additionally, we can beat the best quote you're getting without compromising on quality. Let us know how we can support your needs, and we'll ensure you get the best value.</p>
         
-        <p>Looking forward to your response!</p>
+        <p>Looking forward to your response!</p><a href="{{ $tracked_link }}">Click here for details</a>
         
         <p style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 30px;">
             Best Regards,<br>
@@ -22,7 +22,7 @@
             <br>
             🔗 <a href="{{ $companyWebsite }}">{{ $companyWebsite }}</a><br>
             📞 (904) 706-8883
-            <br><a href="{{ $tracked_link }}">Click here for details</a>
+            
         </p>
 
         <div style="font-size: 0.8em; color: #666; margin-top: 30px;">

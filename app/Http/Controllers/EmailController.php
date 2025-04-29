@@ -485,6 +485,7 @@ class EmailController extends Controller
                     ], function ($msg) use ($emailData, $config) {
                         $msg->to($emailData['email'])
                             ->from($config->mail_from_address, $config->name)
+                            ->replyTo('elena@nexonpackaging.com', 'Elena Herman')
                             ->subject('Best Pricing & Premium Packaging Guaranteed');
                     });
 
