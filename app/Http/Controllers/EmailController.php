@@ -376,12 +376,14 @@ class EmailController extends Controller
     }
     public function sendBatch(Request $request)
     {
-        @ini_set('output_buffering', 'off');
-        @ini_set('zlib.output_compression', false);
+        @ini_set('zlib.output_compression', 'Off');
+        @ini_set('output_buffering', 'Off');
         @ini_set('implicit_flush', true);
+
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
         ob_implicit_flush(true);
-        ob_end_flush();
-        echo str_repeat(' ', 1024); 
 
         ini_set('max_execution_time', 1200); // Extend execution time if needed
 
@@ -511,14 +513,18 @@ class EmailController extends Controller
                     $currentProgress = $sentCount + ($currentConfigIndex * 10);
                     echo "<script>console.clear();</script>";
                     echo "✅ Sent {$sentCount}/{$totalEmails} to {$emailData['email']}\n";
-                    ob_flush(); flush();
+                    if (ob_get_level() > 0) {
+                        ob_flush();
+                    }
+                    flush();
 
                     usleep(4000000); // 3 seconds delay between individual emails
                 }
             } catch (\Exception $e) {
-                 echo "❌ Failed: {$e->getMessage()}\n";
-                ob_flush(); flush();
-
+                if (ob_get_level() > 0) {
+                    ob_flush();
+                }
+                flush();
                 Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
                 return redirect()->route('emails.compose')->with('error', 'Error: ' . $e->getMessage());
             }
