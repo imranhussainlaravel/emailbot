@@ -200,7 +200,7 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a href="/campaigns" class="nav-link">
+                    <a href="{{ route('admin.compaigns') }}" class="nav-link">
                         <i class="fas fa-bullhorn"></i>
                         Campaigns
                     </a>

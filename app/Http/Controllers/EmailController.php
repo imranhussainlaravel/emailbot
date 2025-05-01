@@ -179,17 +179,6 @@ class EmailController extends Controller
         }, $values);
     }
    
-
-    // private function storeEmails($emails)
-    // {
-    //     $chunks = array_chunk($emails, 100); // Batch insert 100 records at a time
-        
-    //     foreach ($chunks as $chunk) {
-    //         ImportedEmail::insert(array_filter($chunk, function ($item) {
-    //             return filter_var($item['email'], FILTER_VALIDATE_EMAIL);
-    //         }));
-    //     }
-    // }
     public function showEmails()
     {
         $emails = session('emails', []);
@@ -221,136 +210,6 @@ class EmailController extends Controller
         return view('emailsrecipients', compact('emails', 'errors'));
     }
 
-
-    // public function sendBatch(Request $request)
-    // {
-    //     ini_set('max_execution_time', 1200);
-    //     // 1. Get emails from request
-    //     $emails = array_map(function($e) {
-    //         return json_decode($e, true);
-    //     }, $request->input('emails', []));
-    
-    //     // 2. Simple validation
-    //     if (empty($emails)) {
-    //         return back()->with('error', 'No emails to send!');
-    //     }
-
-    //     $smtpConfigs = DB::table('email_configurations')
-    //     ->where('status', true)
-    //     ->orderBy('created_at')
-    //     ->get();
-
-    //     if ($smtpConfigs->isEmpty()) {
-    //         return back()->with('error', 'No active email configurations found');
-    //     }
-    //     // $totalEmails = 100;
-    //     // $emails = $this->getEmailList($totalEmails); // Implement your email source
-    
-    //     // 3. Send in batches of 10 with SMTP rotation
-    //     $sentCount = 0;
-    //     $currentConfigIndex = 0;
-
-    //     $totalEmails = count($emails);
-
-    
-    //     foreach (array_chunk($emails, 10) as $batch) {
-    //         // Rotate SMTP config every batch
-    //         $config = $smtpConfigs[$currentConfigIndex % count($smtpConfigs)];
-    //         Log::info('Loaded SMTP configurations:', $smtpConfigs->toArray());
-    //         Log::info("Using SMTP configuration: " . json_encode($config));
-            
-    //         // Update live configuration
-    //         $this->setMailConfig($config);
-
-    //         // Flush cached mailers so new config is applied
-    //         Mail::flushMacros();
-    //         app()->forgetInstance(\Illuminate\Mail\MailManager::class);
-    //         app()->forgetInstance('mail.manager');
-    //         app()->forgetInstance('mailer');
-            
-    //         // Send batch
-    //         try {
-    //             foreach ($batch as $emailData) {
-
-    //                 Log::info('Preparing to send email to:', ['email' => $emailData['email'], 'name' => $emailData['name']]);
-    //                 $trackingId = uniqid();
-
-    //                 $trackingPixel = route('track.open', ['id' => $trackingId]);
-    //                 $trackedLink = route('track.click', [
-    //                     'id' => $trackingId,
-    //                     'url' => urlencode('https://nexonpackaging.com')
-    //                 ]);
-    //                 // $emailData = json_decode($emailData);
-    //                 Mail::send('emails.template', [
-    //                     'name' => $emailData['name'],
-    //                     'tracking_pixel' => $trackingPixel,
-    //                     'tracked_link' => $trackedLink,
-    //                     'senderName' => $config->name,
-    //                     'senderRole' => 'Customer Relations Manager',
-    //                     'companyWebsite' => 'https://nexonpackaging.com',
-    //                     'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
-    //                 ], function ($message) use ($emailData) {
-    //                     $message->to($emailData['email'])
-    //                             ->subject('Best Pricing & Premium Packaging Guaranteed');
-    //                 });
-                    
-    //                 Log::info("Email sent to: {$emailData['email']} with subject: 'Best Pricing & Premium Packaging Guaranteed'");
-                    
-    //                 EmailLog::create([
-    //                     'recipients' => $emailData['email'],          // receiver's email
-    //                     'compaign_id' => 0,
-    //                     'status' => 'sent',
-    //                     'subject' => 'Best Pricing & Premium Packaging Guaranteed',           // default status
-    //                     'tracking_id' => $trackingId,            // for tracking pixel/link
-    //                 ]);
-
-    //                 $sentCount++;
-    //                 $currentProgress = $sentCount + ($currentConfigIndex * 10);
-    //                 // print_r("Sent {$currentProgress}/{$totalEmails} emails");
-    //                 // Or with printf for formatted output:
-    //                 echo "<script>console.clear();</script>";
-    //                 printf("Sent %d/%d emails\n", $currentProgress, $totalEmails);
-    //                 usleep(3000000); // 0.5 second delay between emails
-    //                 // usleep(5000000); // 5-second delay between emails
-                    
-
-                
-
-    //             }
-              
-    
-    //         } catch (\Exception $e) {
-    //             // Log error and rotate config
-    //             Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
-    //             return redirect()->route('emails.compose')->with('error', 'Error: ' . $e->getMessage());
-    //             // return redirect()->route('emails.compose')
-    //             // ->withInput()
-    //             // ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails"); // Additional error details
-    //             // Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
-    //         }
-
-            
-            
-            
-    //         $currentConfigIndex++;
-    //         sleep(6); // 10 second delay between batches
-    //     }
-    
-    //     if (!empty($errors)) {
-    //         return redirect()->route('emails.compose')
-    //             ->withInput()
-    //             ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails"); // Additional error details
-    //     }
-    //     else {
-    //         Log::info("Successfully sent {$sentCount}/{$totalEmails} emails");
-
-    //         return redirect()->route('emails.compose')
-    //             ->withInput()
-    //             ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails"); // Additional error details
-    //     }
-        
-        
-    // }
     
    
     private function setMailConfig($config)
@@ -640,43 +499,45 @@ class EmailController extends Controller
         return redirect()->route('send.emails', ['batch' => $batchNumber + 1]);
     }
 
-// private function setMailConfig($config)
-// {
-//     config([
-//         'mail.default' => 'smtp',
-//         'mail.mailers.smtp' => [
-//             'transport' => 'smtp',
-//             'host' => $config->mail_host,
-//             'port' => $config->mail_port,
-//             'encryption' => $config->mail_scheme,
-//             'username' => $config->mail_username,
-//             'password' => $config->mail_password,
-//             'timeout' => null,
-//             'auth_mode' => null,
-//         ],
-//         'mail.from' => [
-//             'address' => $config->mail_from_address,
-//             'name' => $config->name,
-//         ],
-//     ]);
-// }
-    // private function setMailConfig($config)
-    // {
-    //     config([
-    //         'mail.mailers.smtp.host' => $config->mail_host,
-    //         'mail.mailers.smtp.port' => $config->mail_port,
-    //         'mail.mailers.smtp.username' => $config->mail_username,
-    //         'mail.mailers.smtp.password' => $config->mail_password,
-    //         'mail.mailers.smtp.encryption' => $config->mail_scheme,
-    //        'mail.from.address' => $config->mail_from_address,  // Updated field
-    //         'mail.from.name' => $config->name,
-    //     ]);
+    public function email_compaigns(){
+        // $campaigns = EmailCampaign::orderBy('created_at', 'desc')->get();
+        $campaigns = EmailCampaign::orderBy('id', 'desc')->get(); // Latest first
+        $campaignData = [];
 
-    //     app()->forgetInstance('mailer');
-    //     app()->bind('mailer', function ($app) {
-    //         return \Illuminate\Support\Facades\Mail::getFacadeRoot();
-    //     });
-    // }
+        foreach ($campaigns as $campaign) {
+            // Only organic emails
+            $totalEmails = Emaillog::where('compaign_id', $campaign->id)
+                                   ->count();
+    
+            // Opened emails
+            $openedEmails = Emaillog::where('compaign_id', $campaign->id)
+                                    ->where('status', 'opened')
+                                    ->count();
+    
+            // Clicked emails
+            $clickedEmails = Emaillog::where('compaign_id', $campaign->id)
+                                        ->whereNotNull('opened_at')
+                                     ->count();
+    
+            // CTR Calculations
+            $openedCtr = ($totalEmails > 0) ? round(($openedEmails / $totalEmails) * 100, 2) : 0;
+            $clickedCtr = ($totalEmails > 0) ? round(($clickedEmails / $totalEmails) * 100, 2) : 0;
+    
+            $campaignData[] = [
+                'id' => $campaign->id,
+                'title' => $campaign->title,
+                'subject' => $campaign->subject,
+                'sent_at' => $campaign->sent_at,
+                'total_emails' => $totalEmails,
+                'opened_emails' => $openedEmails,
+                'clicked_emails' => $clickedEmails,
+                'opened_ctr' => $openedCtr,
+                'clicked_ctr' => $clickedCtr,
+            ];
+        }
+        return view('compaigns', compact('campaignData'));
+    }
+   
 
 
 
