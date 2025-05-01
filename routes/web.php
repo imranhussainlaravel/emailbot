@@ -49,7 +49,10 @@ Route::group(['middleware' => 'admin.auth'], function(){
     Route::get('/import/recipients', [EmailController::class, 'emailsrecipients'])->name('emails.recipients');
 
     // routes/web.php
-    Route::post('/send-emails', [EmailController::class, 'sendBatch'])->name('send.emails');
+    // Route::get('/send-emails', [EmailController::class, 'sendBatch'])->name('send.emails');
+    Route::match(['GET', 'POST'], '/send-emails', [EmailController::class, 'sendBatch'])->name('send.emails');
+    // Route::get('/send-batch', [EmailController::class, 'sendBatch'])->name('emails.send-batch');
+
     // Route::get('/test-google-api', function() {
     //     try {
     //         $client = new Google\Client();

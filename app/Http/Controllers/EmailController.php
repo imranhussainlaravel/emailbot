@@ -374,174 +374,269 @@ class EmailController extends Controller
 
         Mail::purge('smtp');
     }
-    public function sendBatch(Request $request)
-    {
-        @ini_set('zlib.output_compression', 'Off');
-        @ini_set('output_buffering', 'Off');
-        @ini_set('implicit_flush', true);
+    // public function sendBatch(Request $request)
+    // {
+    //     @ini_set('zlib.output_compression', 'Off');
+    //     @ini_set('output_buffering', 'Off');
+    //     @ini_set('implicit_flush', true);
 
-        while (ob_get_level() > 0) {
-            ob_end_clean();
-        }
-        ob_implicit_flush(true);
+    //     while (ob_get_level() > 0) {
+    //         ob_end_clean();
+    //     }
+    //     ob_implicit_flush(true);
 
-        ini_set('max_execution_time', 1200); // Extend execution time if needed
+    //     ini_set('max_execution_time', 1200); // Extend execution time if needed
 
-        // 1. Decode and validate emails
-        $emails = array_map(function ($e) {
-            return json_decode($e, true);
-        }, $request->input('emails', []));
+    //     // 1. Decode and validate emails
+    //     $emails = array_map(function ($e) {
+    //         return json_decode($e, true);
+    //     }, $request->input('emails', []));
 
-        if (empty($emails)) {
-            return back()->with('error', 'No emails to send!');
-        }
+    //     if (empty($emails)) {
+    //         return back()->with('error', 'No emails to send!');
+    //     }
 
-        // 2. Get active SMTP configurations
-        $smtpConfigs = DB::table('email_configurations')
-            // ->where('status', true)
-            // ->orderBy('created_at')
-            ->get();
-
-        
+    //     // 2. Get active SMTP configurations
+    //     $smtpConfigs = DB::table('email_configurations')
+    //         // ->where('status', true)
+    //         // ->orderBy('created_at')
+    //         ->get();
 
         
 
-        if (empty($smtpConfigs)) {
-            return back()->with('error', 'No active email configurations found');
-        }
-        $campaign = EmailCampaign::create([
-            'title' => now()->format('l'),
-            'subject' => 'Best Pricing & Premium Packaging Guaranteed',
-            'content' => 'Your ',
-            'sender_user_id' => auth()->id(), // Or any sender user id
-            'smtp_from_email' => 'sender@example.com',
-            'reply_to' => 'reply@example.com',
-            'emails_sent' => 0,
-            'emails_opened' => 0,
-            'emails_bounced' => 0,
-            'sent_at' => now(),
-        ]);
-        $campaignId = $campaign->id; 
+        
+
+    //     if (empty($smtpConfigs)) {
+    //         return back()->with('error', 'No active email configurations found');
+    //     }
+    //     $campaign = EmailCampaign::create([
+    //         'title' => now()->format('l'),
+    //         'subject' => 'Best Pricing & Premium Packaging Guaranteed',
+    //         'content' => 'Your ',
+    //         'sender_user_id' => auth()->id(), // Or any sender user id
+    //         'smtp_from_email' => 'sender@example.com',
+    //         'reply_to' => 'reply@example.com',
+    //         'emails_sent' => 0,
+    //         'emails_opened' => 0,
+    //         'emails_bounced' => 0,
+    //         'sent_at' => now(),
+    //     ]);
+    //     $campaignId = $campaign->id; 
 
 
-        $sentCount = 0;
-        $currentConfigIndex = 0;
-        $totalEmails = count($emails);
+    //     $sentCount = 0;
+    //     $currentConfigIndex = 0;
+    //     $totalEmails = count($emails);
 
-        foreach (array_chunk($emails, 10) as $batch) {
-            // 3. Rotate and apply SMTP config
-            $config = $smtpConfigs[$currentConfigIndex % count($smtpConfigs)];
-            // print_r($config);
-            $this->setMailConfig($config);
+    //     foreach (array_chunk($emails, 10) as $batch) {
+    //         // 3. Rotate and apply SMTP config
+    //         $config = $smtpConfigs[$currentConfigIndex % count($smtpConfigs)];
+    //         // print_r($config);
+    //         $this->setMailConfig($config);
 
-            $mailer = Mail::mailer('smtp');
+    //         $mailer = Mail::mailer('smtp');
 
             
-            // app()->forgetInstance('mailer');
-            // app()->forgetInstance(\Illuminate\Mail\Mailer::class);
-            // app()->forgetInstance(\Illuminate\Contracts\Mail\Mailer::class);
-            // app()->forgetInstance(\Illuminate\Contracts\Mail\Factory::class);
+    //         // app()->forgetInstance('mailer');
+    //         // app()->forgetInstance(\Illuminate\Mail\Mailer::class);
+    //         // app()->forgetInstance(\Illuminate\Contracts\Mail\Mailer::class);
+    //         // app()->forgetInstance(\Illuminate\Contracts\Mail\Factory::class);
 
-            // $mailer = app()->make(\Illuminate\Contracts\Mail\Mailer::class);
+    //         // $mailer = app()->make(\Illuminate\Contracts\Mail\Mailer::class);
 
-            Log::info("Using SMTP configuration: {$config->name} ({$config->mail_from_address})");
+    //         Log::info("Using SMTP configuration: {$config->name} ({$config->mail_from_address})");
 
 
-            Log::info("Using SMTP configuration: " . json_encode($config));
+    //         Log::info("Using SMTP configuration: " . json_encode($config));
 
-            try {
-                foreach ($batch as $emailData) {
-                    $trackingId = uniqid();
-                    $trackingPixel = route('track.open', ['id' => $trackingId]) . '?t=' . time();
-                    // $trackingPixel = route('track.open', ['id' => $trackingId]);
-                    $trackedLink = route('track.click', [
-                        'id' => $trackingId,
-                        'url' => urlencode('https://nexonpackaging.com')
-                    ]);
+    //         try {
+    //             foreach ($batch as $emailData) {
+    //                 $trackingId = uniqid();
+    //                 $trackingPixel = route('track.open', ['id' => $trackingId]) . '?t=' . time();
+    //                 // $trackingPixel = route('track.open', ['id' => $trackingId]);
+    //                 $trackedLink = route('track.click', [
+    //                     'id' => $trackingId,
+    //                     'url' => urlencode('https://nexonpackaging.com')
+    //                 ]);
 
-                    // $mailer = app()->makeWith(\Illuminate\Contracts\Mail\Mailer::class, [
-                    //     'config' => config('mail')
-                    // ]);
-                    Log::info("Using SMTP configuration: {$config->name} ({$config->mail_from_address})");
+    //                 // $mailer = app()->makeWith(\Illuminate\Contracts\Mail\Mailer::class, [
+    //                 //     'config' => config('mail')
+    //                 // ]);
+    //                 Log::info("Using SMTP configuration: {$config->name} ({$config->mail_from_address})");
 
-                    // Before sending email
-                    Log::debug("Preparing to send to: {$emailData['email']} using {$config->mail_from_address}");
+    //                 // Before sending email
+    //                 Log::debug("Preparing to send to: {$emailData['email']} using {$config->mail_from_address}");
                     
 
-                    // $mailer->send('emails.template', [
-                    //     'name' => $emailData['name'],
-                    //     'tracking_pixel' => $trackingPixel,
-                    //     'tracked_link' => $trackedLink,
-                    //     'senderName' => $config->name,
-                    //     'senderRole' => 'Customer Relations Manager',
-                    //     'companyWebsite' => 'https://nexonpackaging.com',
-                    //     'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
-                    // ], function ($message) use ($emailData, $config)
-                    // {
-                    //     $message->to($emailData['email'])
-                    //     ->from($config->mail_from_address, $config->name)
-                    //             ->subject('Best Pricing & Premium Packaging Guaranteed');
-                    // });
+    //                 // $mailer->send('emails.template', [
+    //                 //     'name' => $emailData['name'],
+    //                 //     'tracking_pixel' => $trackingPixel,
+    //                 //     'tracked_link' => $trackedLink,
+    //                 //     'senderName' => $config->name,
+    //                 //     'senderRole' => 'Customer Relations Manager',
+    //                 //     'companyWebsite' => 'https://nexonpackaging.com',
+    //                 //     'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
+    //                 // ], function ($message) use ($emailData, $config)
+    //                 // {
+    //                 //     $message->to($emailData['email'])
+    //                 //     ->from($config->mail_from_address, $config->name)
+    //                 //             ->subject('Best Pricing & Premium Packaging Guaranteed');
+    //                 // });
 
-                    $mailer->send('emails.template', [ 
+    //                 $mailer->send('emails.template', [ 
+    //                     'name' => $emailData['name'],
+    //                     'tracking_pixel' => $trackingPixel,
+    //                     'tracked_link' => $trackedLink,
+    //                     'senderName' => $config->name,
+    //                     'senderRole' => 'Customer Relations Manager',
+    //                     'companyWebsite' => 'https://nexonpackaging.com',
+    //                     'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
+    //                 ], function ($msg) use ($emailData, $config) {
+    //                     $msg->to($emailData['email'])
+    //                         ->from($config->mail_from_address, $config->name)
+    //                         ->replyTo('elena@nexonpackaging.com', 'Elena Herman')
+    //                         ->subject('Best Pricing & Premium Packaging Guaranteed');
+    //                 });
+
+    //                 Log::info("Email sent to: {$emailData['email']}");
+
+    //                 EmailLog::create([
+    //                     'recipients' => $emailData['email'],
+    //                     'compaign_id' => $campaignId,
+    //                     'status' => 'sent',
+    //                     'subject' => 'Best Pricing & Premium Packaging Guaranteed',
+    //                     'tracking_id' => $trackingId,
+    //                     'agent_name' => $config->name,
+    //                 ]);
+
+    //                 $sentCount++;
+    //                 $currentProgress = $sentCount + ($currentConfigIndex * 10);
+    //                 echo "<script>console.clear();</script>";
+    //                 echo "✅ Sent {$sentCount}/{$totalEmails} to {$emailData['email']}\n";
+    //                 if (ob_get_level() > 0) {
+    //                     ob_flush();
+    //                 }
+    //                 flush();
+
+    //                 usleep(5000000); // 3 seconds delay between individual emails
+    //             }
+    //         } catch (\Exception $e) {
+    //             if (ob_get_level() > 0) {
+    //                 ob_flush();
+    //             }
+    //             flush();
+    //             Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
+    //             return redirect()->route('emails.compose')->with('error', 'Error: ' . $e->getMessage());
+    //         }
+
+    //         $currentConfigIndex++;
+    //         sleep(20); // Delay between batches
+    //     }
+
+    //     Log::info("Successfully sent {$sentCount}/{$totalEmails} emails");
+
+    //     echo "🎉 Successfully sent {$sentCount}/{$totalEmails} emails\n";
+    //     ob_flush(); flush();
+
+    //     return redirect()->route('emails.compose')
+    //         ->withInput()
+    //         ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails");
+    // }
+    public function sendBatch(Request $request)
+    {
+        $batchNumber = (int) $request->query('batch', 1);
+        $batchSize = 10;
+        ini_set('max_execution_time', 1200);
+
+        if ($batchNumber === 1) {
+            $campaign = EmailCampaign::create([
+                'title' => now()->format('l'),
+                'subject' => 'Best Pricing & Premium Packaging Guaranteed',
+                'content' => 'Your ',
+                'sender_user_id' => auth()->id(),
+                'smtp_from_email' => 'sender@example.com',
+                'reply_to' => 'reply@example.com',
+                'emails_sent' => 0,
+                'emails_opened' => 0,
+                'emails_bounced' => 0,
+                'sent_at' => now(),
+            ]);
+    
+            session(['campaign_id' => $campaign->id]);
+        }
+    
+        $campaignId = session('campaign_id');
+            
+        if (!session()->has('bulk_emails') && $request->isMethod('post')) {
+            $allEmails = array_map(fn($e) => json_decode($e, true), $request->input('emails', []));
+            session(['bulk_emails' => $allEmails]);
+        } else {
+            $allEmails = session('bulk_emails', []); // ✅ ensure it's always defined
+        }
+        $totalEmails = count($allEmails);
+        $start = ($batchNumber - 1) * $batchSize;
+        $emailsToSend = array_slice($allEmails, $start, $batchSize);
+
+        // If no emails left
+        if (empty($emailsToSend)) {
+            session()->forget('bulk_emails');
+            return redirect()->route('emails.compose')->with('success', '✅ All emails sent!');
+        }
+
+        // ✅ ROTATE SMTP every batch
+        $smtpConfigs = DB::table('email_configurations')->get();
+        $smtpConfig = $smtpConfigs[($batchNumber - 1) % count($smtpConfigs)];
+
+        $this->setMailConfig($smtpConfig);
+        $mailer = Mail::mailer('smtp');
+
+
+        foreach ($emailsToSend as $emailData) {
+
+            try {
+                $trackingId = uniqid();
+                $trackingPixel = route('track.open', ['id' => $trackingId]) . '?t=' . time();
+                // $trackingPixel = route('track.open', ['id' => $trackingId]);
+                $trackedLink = route('track.click', [
+                    'id' => $trackingId,
+                    'url' => urlencode('https://nexonpackaging.com')
+                ]);
+                $mailer->send('emails.template', [ 
                         'name' => $emailData['name'],
                         'tracking_pixel' => $trackingPixel,
                         'tracked_link' => $trackedLink,
-                        'senderName' => $config->name,
+                        'senderName' => $smtpConfig->name,
                         'senderRole' => 'Customer Relations Manager',
                         'companyWebsite' => 'https://nexonpackaging.com',
                         'disclaimer' => "Disclaimer: This email and any attachments are intended solely for the recipient(s) and may contain confidential or privileged information. If you are not the intended recipient, please delete this email immediately and notify the sender. Any unauthorized use, disclosure, or distribution is prohibited. While we take precautions to ensure our emails are free from viruses or malware, we recommend you perform your own checks before opening attachments. We accept no liability for any loss or damage arising from this email. If you no longer wish to receive emails from us, please let us know."
-                    ], function ($msg) use ($emailData, $config) {
-                        $msg->to($emailData['email'])
-                            ->from($config->mail_from_address, $config->name)
-                            ->replyTo('elena@nexonpackaging.com', 'Elena Herman')
-                            ->subject('Best Pricing & Premium Packaging Guaranteed');
-                    });
+                    ], function ($msg) use ($emailData, $smtpConfig) {
+                    $msg->to($emailData['email'])
+                        ->from($smtpConfig->mail_from_address, $smtpConfig->name)
+                        ->replyTo('elena@nexonpackaging.com', 'Elena Herman')
+                        ->subject('Best Pricing & Premium Packaging Guaranteed');
+                });
+                EmailLog::create([
+                    'recipients' => $emailData['email'],
+                    'compaign_id' => $campaignId,
+                    'status' => 'sent',
+                    'subject' => 'Best Pricing & Premium Packaging Guaranteed',
+                    'tracking_id' => $trackingId,
+                    'agent_name' => $smtpConfig->name,
+                ]);
+                usleep(5000000);
+                Log::debug("Preparing to send to: {$emailData['email']} using {$smtpConfig->mail_from_address}");
 
-                    Log::info("Email sent to: {$emailData['email']}");
-
-                    EmailLog::create([
-                        'recipients' => $emailData['email'],
-                        'compaign_id' => $campaignId,
-                        'status' => 'sent',
-                        'subject' => 'Best Pricing & Premium Packaging Guaranteed',
-                        'tracking_id' => $trackingId,
-                        'agent_name' => $config->name,
-                    ]);
-
-                    $sentCount++;
-                    $currentProgress = $sentCount + ($currentConfigIndex * 10);
-                    echo "<script>console.clear();</script>";
-                    echo "✅ Sent {$sentCount}/{$totalEmails} to {$emailData['email']}\n";
-                    if (ob_get_level() > 0) {
-                        ob_flush();
-                    }
-                    flush();
-
-                    usleep(5000000); // 3 seconds delay between individual emails
-                }
+                echo "✅ Sent to {$emailData['email']} using {$smtpConfig->mail_from_address}<br>";
             } catch (\Exception $e) {
-                if (ob_get_level() > 0) {
-                    ob_flush();
-                }
-                flush();
-                Log::error("Email send failed with config {$config->name}: " . $e->getMessage());
-                return redirect()->route('emails.compose')->with('error', 'Error: ' . $e->getMessage());
+                echo "❌ Failed to send to {$emailData['email']} - {$e->getMessage()}<br>";
+
             }
-
-            $currentConfigIndex++;
-            sleep(20); // Delay between batches
         }
-
-        Log::info("Successfully sent {$sentCount}/{$totalEmails} emails");
-
-        echo "🎉 Successfully sent {$sentCount}/{$totalEmails} emails\n";
-        ob_flush(); flush();
-
-        return redirect()->route('emails.compose')
-            ->withInput()
-            ->with('success', "Successfully sent {$sentCount}/{$totalEmails} emails");
+        usleep(5000000);
+        // Redirect to next batch
+        return redirect()->route('send.emails', ['batch' => $batchNumber + 1]);
     }
+
 // private function setMailConfig($config)
 // {
 //     config([
