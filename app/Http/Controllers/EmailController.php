@@ -548,6 +548,17 @@ class EmailController extends Controller
         $batchSize = 10;
         ini_set('max_execution_time', 1200);
 
+        $totalEmails = count($allEmails);
+        $start = ($batchNumber - 1) * $batchSize;
+        $emailsToSend = array_slice($allEmails, $start, $batchSize);
+
+        // If no emails left
+        if (empty($emailsToSend)) {
+            session()->forget(['bulk_emails', 'campaign_id']); 
+            // session()->forget('bulk_emails');
+            return redirect()->route('emails.compose')->with('success', '✅ All emails sent!');
+        }
+
         if ($batchNumber === 1) {
             $campaign = EmailCampaign::create([
                 'title' => now()->format('l'),
@@ -573,15 +584,7 @@ class EmailController extends Controller
         } else {
             $allEmails = session('bulk_emails', []); // ✅ ensure it's always defined
         }
-        $totalEmails = count($allEmails);
-        $start = ($batchNumber - 1) * $batchSize;
-        $emailsToSend = array_slice($allEmails, $start, $batchSize);
-
-        // If no emails left
-        if (empty($emailsToSend)) {
-            session()->forget('bulk_emails');
-            return redirect()->route('emails.compose')->with('success', '✅ All emails sent!');
-        }
+        
 
         // ✅ ROTATE SMTP every batch
         $smtpConfigs = DB::table('email_configurations')->get();
