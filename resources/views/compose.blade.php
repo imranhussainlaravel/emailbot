@@ -370,7 +370,7 @@
                     <div class="alert alert-success">
                         {{ session('success') }}
                         <a href="{{ route('emails.recipients') }}" class="btn btn-success float-right">
-                            Proceed to Recipients <i class="fas fa-arrow-right"></i>
+                            {{-- Proceed to Recipients <i class="fas fa-arrow-right"></i> --}}
                         </a>
                     </div>
                 @endif
