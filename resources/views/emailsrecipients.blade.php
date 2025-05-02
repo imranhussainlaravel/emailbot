@@ -105,6 +105,7 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,6 +114,8 @@
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $email['name'] }}</td>
                             <td>{{ $email['email'] }}</td>
+                            <td>{{ $email['phone'] }}</td>
+
                         </tr>
                     @endforeach
                 </tbody>
