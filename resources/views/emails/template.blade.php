@@ -7,9 +7,12 @@
         
         <p>I hope you're doing well. A few months ago, we received your request for a quote, but it seems the order didn't move forward. I wanted to check in and see if you have any new projects or requirements we can assist with.</p>
         
-        <p>If you're considering a new order, please share the details—style, size, and quantity—and I'd be happy to arrange a quote for you. Additionally, we can beat the best quote you're getting without compromising on quality. Let us know how we can support your needs, and we'll ensure you get the best value.</p>
+        <p>If you're considering a new order, please share the details<strong>-style, size, and quantity-</strong>and I'd be happy to arrange a quote for you. Additionally, we can beat the best quote you're getting without compromising on quality. Let us know how we can support your needs, and we'll ensure you get the best value.</p>
         
-        <p>Looking forward to your response!</p><a href="{{ $tracked_link }}">Click here for details</a>
+        {{-- <p>Looking forward to your response!</p><a href="{{ $tracked_link }}">Click here for details</a> --}}
+        <p>Looking forward to your response!</p>
+<a href="{{ $tracked_link }}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click Here for Details</a>
+
         
         <p style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 30px;">
             Best Regards,<br>
