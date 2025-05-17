@@ -119,6 +119,13 @@
             background-color: #f0f8ff;
             cursor: pointer;
         }
+        .highlight-date {
+  font-weight: bold;
+  color: #6a4b86; /* a nice purple shade */
+  background-color: #f0e6fa; /* light purple background */
+  padding: 3px 6px;
+  border-radius: 4px;
+}
 
         @media (max-width: 768px) {
             .dashboard-container {
