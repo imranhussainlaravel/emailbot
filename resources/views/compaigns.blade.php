@@ -211,7 +211,11 @@
                         <td>{{ $campaign['id'] }}</td>
                         <td>{{ $dayOfWeek }}</td>
                         <td>{{ $campaign['subject'] }}</td>
-                        <td>{{ $campaign['sent_at'] }}</td>
+                       <td>
+                            <span class="highlight-date">
+                                {{ \Carbon\Carbon::parse($campaign['sent_at'])->format('Y-m-d') }}
+                            </span>
+                        </td>
                         <td>{{ $campaign['total_emails'] }}</td>
                         <td>{{ $campaign['opened_emails'] }}</td>
                         <td>{{ $campaign['clicked_emails'] }}</td>
