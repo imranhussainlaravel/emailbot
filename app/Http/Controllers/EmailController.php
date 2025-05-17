@@ -23,6 +23,8 @@ use Symfony\Component\Mailer\Transport;
 // use Symfony\Component\Mailer\Mailer;
 use Swift_SmtpTransport;
 use Swift_Mailer;
+use Carbon\Carbon;
+
 
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
@@ -335,9 +337,81 @@ class EmailController extends Controller
         return redirect()->route('send.emails', ['batch' => $batchNumber + 1]);
     }
 
-    public function email_compaigns(){
-        // $campaigns = EmailCampaign::orderBy('created_at', 'desc')->get();
-        $campaigns = EmailCampaign::orderBy('id', 'desc')->get(); // Latest first
+    // public function email_compaigns(){
+    //     // $campaigns = EmailCampaign::orderBy('created_at', 'desc')->get();
+    //     $campaigns = EmailCampaign::orderBy('id', 'desc')->get(); // Latest first
+    //     $campaignData = [];
+
+    //     foreach ($campaigns as $campaign) {
+    //         // Only organic emails
+    //         $totalEmails = Emaillog::where('compaign_id', $campaign->id)
+    //                                ->count();
+    
+    //         // Opened emails
+    //         $openedEmails = Emaillog::where('compaign_id', $campaign->id)
+    //                                 ->where('status', 'opened')
+    //                                 ->count();
+    
+    //         // Clicked emails
+    //         $clickedEmails = Emaillog::where('compaign_id', $campaign->id)
+    //                                     ->whereNotNull('opened_at')
+    //                                  ->count();
+    
+    //         // CTR Calculations
+    //         $openedCtr = ($totalEmails > 0) ? round(($openedEmails / $totalEmails) * 100, 2) : 0;
+    //         $clickedCtr = ($totalEmails > 0) ? round(($clickedEmails / $totalEmails) * 100, 2) : 0;
+    
+    //         $campaignData[] = [
+    //             'id' => $campaign->id,
+    //             'title' => $campaign->title,
+    //             'subject' => $campaign->subject,
+    //             'sent_at' => $campaign->sent_at,
+    //             'total_emails' => $totalEmails,
+    //             'opened_emails' => $openedEmails,
+    //             'clicked_emails' => $clickedEmails,
+    //             'opened_ctr' => $openedCtr,
+    //             'clicked_ctr' => $clickedCtr,
+    //         ];
+    //     }
+    //     return view('compaigns', compact('campaignData'));
+    // }
+    public function campaigns_view($campaignId){
+        // $campaignId = $request->campaignId;
+        // print_r($campaignId);exit();
+        $emailLogs = EmailLog::where('compaign_id', $campaignId)
+        ->select('id', 'recipients', 'status', 'opened_times', 'agent_name', 'opened_at' ,'phone')
+        ->orderByRaw('opened_at IS NOT NULL DESC') // Opened emails first
+        ->orderByDesc('opened_times')              // Then by opened_times high to low
+        ->get();
+
+        return view('campaignlogs', compact('emailLogs'));
+    }
+    public function showCampaignMonths(){
+        // Pull distinct year and month from sent_at
+        $months = EmailCampaign::selectRaw("YEAR(sent_at) as year, MONTH(sent_at) as month")
+            ->distinct()
+            ->orderByDesc('year')
+            ->orderByDesc('month')
+            ->get()
+            ->map(function($row) {
+                $dt = Carbon::create($row->year, $row->month);
+                return [
+                    'year'      => $row->year,
+                    'month'     => $row->month,
+                    'label'     => $dt->format('F Y'), // e.g. "May 2025"
+                    'route'     => route('campaigns_view', [$row->year, $row->month]),
+                ];
+            });
+
+        return view('months', compact('months'));
+    }
+    public function email_compaigns($year, $month)
+    {
+        $campaigns = EmailCampaign::whereYear('sent_at', $year)
+                                    ->whereMonth('sent_at', $month)
+                                    ->get();
+        // return view('campaignlogs', compact('campaigns'));
+
         $campaignData = [];
 
         foreach ($campaigns as $campaign) {
@@ -372,17 +446,6 @@ class EmailController extends Controller
             ];
         }
         return view('compaigns', compact('campaignData'));
-    }
-    public function campaigns_view($campaignId){
-        // $campaignId = $request->campaignId;
-        // print_r($campaignId);exit();
-        $emailLogs = EmailLog::where('compaign_id', $campaignId)
-        ->select('id', 'recipients', 'status', 'opened_times', 'agent_name', 'opened_at' ,'phone')
-        ->orderByRaw('opened_at IS NOT NULL DESC') // Opened emails first
-        ->orderByDesc('opened_times')              // Then by opened_times high to low
-        ->get();
-
-        return view('campaignlogs', compact('emailLogs'));
     }
    
    

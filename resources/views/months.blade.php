@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Email Log</title>
+    <title>Email Campaigns - Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -98,7 +98,9 @@
             background: white;
             overflow-y: auto;
         }
-
+        h2 {
+            margin-bottom: 20px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -114,15 +116,8 @@
             background-color: #f1f1f1;
         }
         tr:hover {
-            background-color: #eef;
+            background-color: #f0f8ff;
             cursor: pointer;
-        }
-        .green-bg {
-            background-color: #e9fbe7;
-        }
-        .orange-text {
-            color: #e67e22;
-            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -166,6 +161,8 @@
                 </a>
             </li>
         </ul>
+
+        <!-- Logout -->
         <div class="logout-section">
             <form action="{{ route('admin.logout') }}" method="POST">
                 @csrf
@@ -178,41 +175,25 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <div style="margin-bottom: 1rem;">
-            <a href="{{ url()->previous() }}" class="btn btn-primary" style="padding: 0.6rem 1rem; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 5px;">
-                <i class="fas fa-arrow-left"></i> Back to Campaigns
-            </a>
-        </div>
-        <h2>Email Log for Campaign ID: {{ request()->route('id') }}</h2>
-        <!-- Back Button -->
-        
-
+        <h2>Select a Month</h2>
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Recipient</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Opened Times</th>
-                    <th>Agent</th>
-                    <th>Opened At</th>
+                    <th>Month</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($emailLogs as $email)
-                <tr class="
-                    {{ $email->opened_at ? 'green-bg' : '' }}
-                    {{ !$email->opened_at && $email->opened_times > 0 ? 'orange-text' : '' }}">
-                    <td>{{ $email->id }}</td>
-                    <td>{{ $email->recipients }}</td>
-                    <td>{{ $email->phone }}</td>
-                    <td>{{ $email->status }}</td>
-                    <td>{{ $email->opened_times }}</td>
-                    <td>{{ $email->agent_name }}</td>
-                    <td>{{ $email->opened_at ?? '—' }}</td>
+                @foreach($months as $m)
+                <tr>
+                    <td>{{ $m['label'] }}</td>
+                    {{-- <td><a href="{{ route('admin.compaigns', $m['label']) }}" class="btn btn-outline-primary">View Campaigns</a></td> --}}
+                    <td><a href="{{ route('admin.compaigns', [$m['year'], $m['month']]) }}" class="btn btn-outline-primary">View Campaigns</a></td>
+
+
+
+
                 </tr>
-            
                 @endforeach
             </tbody>
         </table>

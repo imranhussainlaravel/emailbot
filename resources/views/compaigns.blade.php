@@ -151,7 +151,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin.compaigns') }}" class="nav-link active-nav">
+                <a href="{{ route('campaigns.months') }}" class="nav-link active-nav">
                     <i class="fas fa-bullhorn"></i> Campaigns
                 </a>
             </li>
@@ -177,11 +177,11 @@
     <main class="main-content">
         <h2>Email Campaign Stats</h2>
 
-        <table>
+       <<table>
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
+                    <th>Days</th>
                     <th>Subject</th>
                     <th>Sent At</th>
                     <th>Total Organic Emails</th>
@@ -193,9 +193,23 @@
             </thead>
             <tbody>
                 @foreach($campaignData as $campaign)
-                    <tr onclick="window.location='{{ route('campaigns_view', $campaign['id']) }}'">
+                    @php
+                        $dayOfWeek = \Carbon\Carbon::parse($campaign['sent_at'])->format('l'); // Get day name
+                        $rowColor = match ($dayOfWeek) {
+                            'Monday' => '#EDE7F6', // Lightest Purple
+                            'Tuesday' => '#D1C4E9', // Light Purple
+                            'Wednesday' => '#B39DDB', // Medium Purple
+                            'Thursday' => '#9575CD', // Slightly Darker Purple
+                            'Friday' => '#7E57C2', // Mid-Dark Purple
+                            'Saturday' => '#673AB7', // Dark Purple
+                            'Sunday' => '#512DA8', // Darkest Purple
+                            default => 'white',
+                        };
+                    @endphp
+
+                    <tr style="background-color: {{ $rowColor }}; color: #2c3e50;" onclick="window.location='{{ route('campaigns_view', $campaign['id']) }}'">
                         <td>{{ $campaign['id'] }}</td>
-                        <td>{{ $campaign['title'] }}</td>
+                        <td>{{ $dayOfWeek }}</td>
                         <td>{{ $campaign['subject'] }}</td>
                         <td>{{ $campaign['sent_at'] }}</td>
                         <td>{{ $campaign['total_emails'] }}</td>
@@ -207,6 +221,8 @@
                 @endforeach
             </tbody>
         </table>
+
+
     </main>
 </div>
 </body>
