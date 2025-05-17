@@ -184,7 +184,7 @@
     <main class="main-content">
         <h2>Email Campaign Stats</h2>
 
-       <<table>
+        <table>
             <thead>
                 <tr>
                     <th>ID</th>
