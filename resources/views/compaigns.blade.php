@@ -121,8 +121,8 @@
         }
         .highlight-date {
   font-weight: bold;
-  color: #6a4b86; /* a nice purple shade */
-  background-color: #f0e6fa; /* light purple background */
+  color: #3e1a5e;
+  /* background-color: #f0e6fa; light purple background */
   padding: 3px 6px;
   border-radius: 4px;
 }
