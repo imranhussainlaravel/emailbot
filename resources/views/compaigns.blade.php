@@ -220,7 +220,7 @@
                         <td>{{ $campaign['subject'] }}</td>
                        <td>
                             <span class="highlight-date">
-                                {{ \Carbon\Carbon::parse($campaign['sent_at'])->format('d-m-y') }}
+                                {{ \Carbon\Carbon::parse($campaign['sent_at'])->format('d-m') }}
                             </span>
                         </td>
                         <td>{{ $campaign['total_emails'] }}</td>
