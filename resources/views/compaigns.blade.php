@@ -196,10 +196,10 @@
                     @php
                         $dayOfWeek = \Carbon\Carbon::parse($campaign['sent_at'])->format('l'); // Get day name
                         $rowColor = match ($dayOfWeek) {
-                            'Monday' => '#EDE7F6', // Lightest Purple
-                            'Tuesday' => '#D1C4E9', // Light Purple
-                            'Wednesday' => '#B39DDB', // Medium Purple
-                            'Thursday' => '#EDE7F6', // Slightly Darker Purple
+                            'Monday' => '#673AB7', // Lightest Purple
+                            'Tuesday' => '#EDE7F6', // Light Purple
+                            'Wednesday' => '#D1C4E9', // Medium Purple
+                            'Thursday' => '#B39DDB', // Slightly Darker Purple
                             'Friday' => '#7E57C2', // Mid-Dark Purple
                             'Saturday' => '#673AB7', // Dark Purple
                             'Sunday' => '#512DA8', // Darkest Purple
