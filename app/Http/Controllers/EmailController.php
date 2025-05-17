@@ -409,6 +409,7 @@ class EmailController extends Controller
     {
         $campaigns = EmailCampaign::whereYear('sent_at', $year)
                                     ->whereMonth('sent_at', $month)
+                                    ->orderBy('id', 'desc')
                                     ->get();
         // return view('campaignlogs', compact('campaigns'));
 
