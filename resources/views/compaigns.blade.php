@@ -202,14 +202,14 @@
                 @foreach($campaignData as $campaign)
                     @php
                         $dayOfWeek = \Carbon\Carbon::parse($campaign['sent_at'])->format('l'); // Get day name
-                        $rowColor = match ($dayOfWeek) {
-                            'Monday' => '#673AB7', // Lightest Purple
-                            'Tuesday' => '#EDE7F6', // Light Purple
-                            'Wednesday' => '#D1C4E9', // Medium Purple
-                            'Thursday' => '#B39DDB', // Slightly Darker Purple
-                            'Friday' => '#7E57C2', // Mid-Dark Purple
-                            'Saturday' => '#673AB7', // Dark Purple
-                            'Sunday' => '#512DA8', // Darkest Purple
+                       $rowColor = match ($dayOfWeek) {
+                            'Monday' => '#F57C00',  // Lightest Orange (Peach)
+                            'Tuesday' => '#FFE0B2', // Light Orange
+                            'Wednesday' => '#FFCC80', // Medium Orange
+                            'Thursday' => '#FFB74D', // Slightly Darker Orange
+                            'Friday' => '#FF9800', // Mid-Dark Orange
+                            'Saturday' => '#FB8C00', // Dark Orange
+                            'Sunday' => '#F57C00', // Darker Orange
                             default => 'white',
                         };
                     @endphp
