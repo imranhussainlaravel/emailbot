@@ -199,7 +199,7 @@
                             'Monday' => '#EDE7F6', // Lightest Purple
                             'Tuesday' => '#D1C4E9', // Light Purple
                             'Wednesday' => '#B39DDB', // Medium Purple
-                            'Thursday' => '#9575CD', // Slightly Darker Purple
+                            'Thursday' => '#EDE7F6', // Slightly Darker Purple
                             'Friday' => '#7E57C2', // Mid-Dark Purple
                             'Saturday' => '#673AB7', // Dark Purple
                             'Sunday' => '#512DA8', // Darkest Purple
