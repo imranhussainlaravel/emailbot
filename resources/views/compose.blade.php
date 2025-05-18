@@ -321,7 +321,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.compaigns') }}" class="nav-link">
+                    <a href="{{ route('campaigns.months') }}" class="nav-link">
                         <i class="fas fa-bullhorn"></i> Campaigns
                     </a>
                 </li>
