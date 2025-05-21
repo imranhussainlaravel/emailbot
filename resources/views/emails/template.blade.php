@@ -11,7 +11,7 @@
         
         {{-- <p>Looking forward to your response!</p><a href="{{ $tracked_link }}">Click here for details</a> --}}
         <p>Looking forward to your response!</p>
-<a href="{{ $tracked_link }}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click Here for Details</a>
+<a href="{{ $tracked_link }}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click Here for free Quote</a>
 
         
         <p style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 30px;">
