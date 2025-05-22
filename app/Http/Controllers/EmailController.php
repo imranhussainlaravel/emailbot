@@ -318,7 +318,7 @@ class EmailController extends Controller
                     'recipients' => $emailData['email'],
                     'compaign_id' => $campaignId,
                     'status' => 'sent',
-                    'subject' => 'Best Pricing & Premium Packaging Guaranteed',
+                    'subject' => $emailData['name'],
                     'tracking_id' => $trackingId,
                     'agent_name' => $smtpConfig->name,
                     'phone' => $emailData['phone']
