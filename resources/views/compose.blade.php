@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Campaign System</title>
+    <title>Professional Dashboard</title>
+    <!-- Fixed Font Awesome Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -11,118 +10,116 @@
             --secondary-color: #3498db;
             --background-color: #f8f9fa;
             --text-color: #2c3e50;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
         }
 
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            background: var(--background-color);
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .dashboard-container {
+            display: flex;
             min-height: 100vh;
         }
 
-        /* Dashboard Layout */
-        .dashboard-container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar Styles */
         .sidebar {
-            width: 260px;
-            background: var(--primary-color);
-            padding: 1.5rem;
-            color: white;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
+            width: 250px;
+            background-color: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+            flex-shrink: 0;
         }
 
         .sidebar h2 {
-            color: white;
-            margin-bottom: 2rem;
+            margin-bottom: 30px;
+            font-size: 24px;
         }
 
         .nav-menu {
             list-style: none;
-            margin-top: 1rem;
-            flex-grow: 1;
+            padding: 0;
         }
 
         .nav-item {
-            margin: 0.5rem 0;
-            transition: transform 0.2s ease;
-        }
-
-        .nav-item:hover {
-            transform: translateX(5px);
+            margin-bottom: 15px;
         }
 
         .nav-link {
-            color: white;
             text-decoration: none;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.2s ease;
-            position: relative;
+            color: #ccc;
+            font-size: 16px;
+            display: block;
+            transition: 0.2s;
         }
 
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .nav-link:hover,
+        .nav-link.active {
+            color: #00f0ff;
         }
-
-        .nav-link i {
-            width: 25px;
-            text-align: center;
-        }
-
-        .nav-link.active-nav {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link.active-nav::after {
-            content: "";
-            position: absolute;
-            right: -1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 60%;
-            background: var(--secondary-color);
-            border-radius: 2px;
+        .nav-link.active-nav{
+            color: #00a6ff;
         }
 
         .logout-section {
-            margin-top: auto;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
         }
 
         .logout-btn {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
+            background-color: #ff4d4d;
             color: white;
             border: none;
-            border-radius: 8px;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.2s ease;
+            font-size: 16px;
         }
 
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: #ffffff;
+        }
+
+        .header h1 {
+            margin: 0 0 5px 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0 0 20px 0;
+            color: #666;
+        }
+        .greeting-card {
+            background: var(--secondary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
         }
 
         /* Main Content Styles */
@@ -326,7 +323,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/all-data" class="nav-link">
+                    {{-- <a href="/all-data" class="nav-link"> --}}
+                        <a href="{{ route('all.emails') }}" class="nav-link">
                         <i class="fas fa-database"></i> All Data
                     </a>
                 </li>

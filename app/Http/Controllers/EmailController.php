@@ -448,6 +448,37 @@ class EmailController extends Controller
         }
         return view('compaigns', compact('campaignData'));
     }
+    public function showallemails()
+    {
+        // Replace this with your real data source (DB, etc.)
+        $emails = EmailLog::select('id', 'recipients', 'status', 'opened_times', 'agent_name', 'opened_at' ,'phone','contact_status','comment')
+        ->get();
+        // $emails = [
+        //     'john@example.com',
+        //     'admin@site.com',
+        //     'jane.doe@example.com',
+        //     'support@company.com',
+        //     'info@domain.com',
+        // ];
+
+        return view('allemail', compact('emails'));
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'contact_status' => 'required|in:none,contacted,not_interested,interested,contact_later,bounce',
+            'comment' => 'nullable|string',
+        ]);
+
+        $email = EmailLog::findOrFail($id);
+        $email->contact_status = $request->contact_status;
+        $email->comment = $request->comment;
+        $email->save();
+
+        return redirect()->back()->with('success', 'Contact status updated successfully.');
+    }
+
+
    
    
 

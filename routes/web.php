@@ -49,6 +49,11 @@ Route::group(['middleware' => 'admin.auth'], function(){
 
     Route::get('/campaigns/months', [EmailController::class, 'showCampaignMonths'])->name('campaigns.months');
 
+    Route::get('/allemail', [EmailController::class, 'showallemails'])->name('all.emails');
+    Route::put('/email_logs/{id}', [EmailController::class, 'update'])->name('email_logs.update');
+
+
+
 // Route::get(
 //     'admin/campaigns/view/{id}', 
 //     [EmailController::class, 'email_compaigns']

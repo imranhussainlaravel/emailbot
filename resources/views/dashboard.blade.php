@@ -13,101 +13,88 @@
         }
 
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            background: var(--background-color);
-            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
         }
 
         .dashboard-container {
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
         }
 
-        /* Sidebar Navigation */
         .sidebar {
-            width: 260px;
-            background: var(--primary-color);
-            padding: 1.5rem;
-            color: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
+            width: 250px;
+            background-color: #1a1a2e;
+            color: #fff;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 24px;
         }
 
         .nav-menu {
             list-style: none;
-            margin-top: 2rem;
-            flex-grow: 1;
+            padding: 0;
         }
 
         .nav-item {
-            margin: 1rem 0;
-            transition: transform 0.2s ease;
-        }
-
-        .nav-item:hover {
-            transform: translateX(5px);
+            margin-bottom: 15px;
         }
 
         .nav-link {
-            color: white;
             text-decoration: none;
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.2s ease;
-            position: relative;
+            color: #ccc;
+            font-size: 16px;
+            display: block;
+            transition: 0.2s;
         }
 
-        .nav-link:hover {
-            background: rgba(255,255,255,0.1);
+        .nav-link:hover,
+        .nav-link.active {
+            color: #00f0ff;
+        }
+        .nav-link.active-nav{
+            color: #00a6ff;
         }
 
-        .nav-link i {
-            width: 25px;
-            text-align: center;
+        .logout-section {
+            margin-top: 30px;
         }
 
-        /* Active State */
-        .nav-link.active-nav {
-            background: rgba(255,255,255,0.1);
+        .logout-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
-        .nav-link.active-nav::after {
-            content: "";
-            position: absolute;
-            right: -1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 60%;
-            background: var(--secondary-color);
-            border-radius: 2px;
-        }
-
-        /* Main Content Area */
         .main-content {
-            flex: 1;
-            padding: 2rem;
-            background: white;
-            overflow-y: auto;
+            flex-grow: 1;
+            padding: 40px;
+            background-color: #ffffff;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+        .header h1 {
+            margin: 0 0 5px 0;
+            font-size: 28px;
         }
 
+        .header p {
+            margin: 0 0 20px 0;
+            color: #666;
+        }
         .greeting-card {
             background: var(--secondary-color);
             color: white;
@@ -136,13 +123,13 @@
         }
 
         /* Logout Section */
-        .logout-section {
+        /* .logout-section {
             margin-top: auto;
             padding-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-        }
+        } */
 
-        .logout-btn {
+        /* .logout-btn {
             width: 100%;
             padding: 0.8rem;
             background: rgba(255,255,255,0.1);
@@ -158,28 +145,12 @@
 
         .logout-btn:hover {
             background: rgba(255,255,255,0.2);
-        }
+        } */
 
-        @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .dashboard-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-            }
-
-            .nav-link.active-nav::after {
-                display: none;
-            }
-        }
+       
     </style>
 </head>
 <body>
@@ -206,7 +177,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/all-data" class="nav-link">
+                    <a href="{{ route('all.emails') }}" class="nav-link">
                         <i class="fas fa-database"></i>
                         All Data
                     </a>
@@ -231,20 +202,20 @@
         <main class="main-content">
             <div class="header">
                 <div class="user-info">
-                    <h1>Welcome Back, Admin</h1>
-                    <p>Last login: Today at 09:30 AM</p>
+                    <h1>Welcome Back, Imran</h1>
+                    {{-- <p>Last login: Today at 09:30 AM</p> --}}
                 </div>
-                <div class="notifications">
+                {{-- <div class="notifications">
                     <button class="icon-button">
                         <i class="fas fa-bell"></i>
                     </button>
-                </div>
+                </div> --}}
             </div>
 
-            <div class="greeting-card">
+            {{-- <div class="greeting-card">
                 <h2>Good Morning! 🌞</h2>
                 <p>You have 3 new messages and 2 pending tasks</p>
-            </div>
+            </div> --}}
 
             <div class="stats-container">
                 <div class="stat-card">
